@@ -5,6 +5,8 @@ const employeeSchema = mongoose.Schema({
   email: String,
   employeeId: String,
   mobile: String,
+  address: String,
+  designation: String,
   createdAt: {
     type: Date,
     default: new Date(),

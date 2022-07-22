@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import EmployeeDetails from '../models/employees.js';
 
 export const getEmployeesList = async (req, res) => {
@@ -22,4 +23,33 @@ export const createEmployee = async (req, res) => {
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
+};
+
+export const updateEmployee = async (req, res) => {
+  const { id: _id } = req.params;
+  const employee = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
+    return res.status(404).send('No Employee with that ID');
+  }
+
+  const updatedEmployee = await EmployeeDetails.findByIdAndUpdate(
+    _id,
+    { ...employee, _id },
+    { new: true }
+  );
+
+  res.json(updatedEmployee);
+};
+
+export const deleteEmployee = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).send('No Employee with that ID');
+  }
+
+  await EmployeeDetails.findByIdAndDelete(id);
+
+  return res.json({ message: 'Item deleted successfully.' });
 };

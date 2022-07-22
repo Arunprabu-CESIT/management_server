@@ -32,7 +32,13 @@ export const Signup = async (req, res) => {
       expiresIn: '1h',
     });
 
-    res.status(200).json({ result, token });
+    res
+      .status(200)
+      .cookie('token', token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
+      })
+      .json({ result });
   } catch (error) {
     res.status(500).json({ message: 'Somthing went wrong! Try again later.' });
   }
@@ -63,7 +69,13 @@ export const Signin = async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    res.status(200).json({ result: existingUser, token });
+    res
+      .status(200)
+      .cookie('token', token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
+      })
+      .json({ result: existingUser });
   } catch (error) {
     res.status(500).json({ message: 'Somthing went wrong! Try again later.' });
   }

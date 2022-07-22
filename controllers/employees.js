@@ -30,7 +30,7 @@ export const updateEmployee = async (req, res) => {
   const employee = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(_id)) {
-    return res.status(404).send('No Post with that ID');
+    return res.status(404).send('No Employee with that ID');
   }
 
   const updatedEmployee = await EmployeeDetails.findByIdAndUpdate(
@@ -46,7 +46,7 @@ export const deleteEmployee = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).send('No post with that ID');
+    return res.status(404).send('No Employee with that ID');
   }
 
   await EmployeeDetails.findByIdAndDelete(id);
